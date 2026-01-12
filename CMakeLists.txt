@@ -94,8 +94,12 @@ IF(USE_BZIP2)
    ADD_DEFINITIONS(-DHAVE_BZIP2=1)
 ENDIF(USE_BZIP2)
 
+IF("${CMAKE_C_COMPILER_ID}" STREQUAL "Emscripten")
+    SET(EMSCRIPTEN TRUE)
+ENDIF()
+
 # Math library (not available in MSVC or MINGW)
-IF(MSVC OR MINGW)
+IF(MSVC OR MINGW OR EMSCRIPTEN)
    SET(M_LIB "")
 ELSE()
    FIND_LIBRARY(M_LIB m)
@@ -228,7 +232,6 @@ SET(SRC_FILES
     buffers.c cfileio.c checksum.c
     drvrfile.c drvrmem.c drvrnet.c drvrsmem.c
     editcol.c edithdu.c eval_f.c eval_l.c eval_y.c
-    f77_wrap1.c f77_wrap2.c f77_wrap3.c f77_wrap4.c
     fits_hcompress.c fits_hdecompress.c fitscore.c
     getcol.c getcolb.c getcold.c getcole.c getcoli.c getcolj.c getcolk.c
     getcoll.c getcols.c getcolsb.c getcolui.c getcoluj.c getcoluk.c
@@ -239,6 +242,13 @@ SET(SRC_FILES
     putkey.c quantize.c region.c ricecomp.c scalnull.c simplerng.c swapproc.c
     wcssub.c wcsutil.c zcompress.c zuncompress.c
 )
+
+# Only add Fortran wrappers if not building with Emscripten
+IF(NOT EMSCRIPTEN)
+    LIST(APPEND SRC_FILES
+        f77_wrap1.c f77_wrap2.c f77_wrap3.c f77_wrap4.c
+    )
+ENDIF()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 

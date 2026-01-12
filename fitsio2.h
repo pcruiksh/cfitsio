@@ -247,6 +247,10 @@ extern int Fitsio_Pthread_Status;
 #define LONGSIZE 32
 #endif
 
+#ifdef __EMSCRIPTEN__     
+#define BYTESWAPPED TRUE
+#endif
+
 /*       end of block that determine long size and byte swapping        */ 
 /* ==================================================================== */
  
