@@ -57,6 +57,7 @@ utilities/.deps/
 utilities/.dirstamp
 .vscode/
 build/
+build-wasm/
 include/
 *.lis
 

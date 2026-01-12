@@ -66,6 +66,14 @@ OPTION(USE_SSSE3 "Enable use of instructions in the SSSE3 extended instruction s
 
 OPTION(USE_BZIP2 "Enable bzip2 support" OFF)
 
+OPTION(BUILD_WASM_MODULE "Build WebAssembly module (requires Emscripten)" OFF)
+
+# WebAssembly configuration options:
+SET(WASM_EXPORTED_FUNCTIONS "['_malloc','_free','_write_fits','_read_file_data','_file_exists','_delete_file']"
+    CACHE STRING "Exported functions for the WASM module")
+SET(WASM_INITIAL_MEMORY "64MB" CACHE STRING "Initial memory size for WASM module")
+SET(WASM_MAXIMUM_MEMORY "512MB" CACHE STRING "Maximum memory size for WASM module")
+
 #==============================================================================
 
 FIND_PACKAGE(ZLIB REQUIRED)
@@ -292,6 +300,38 @@ IF (BZIP2_FOUND)
     TARGET_LINK_LIBRARIES(${LIB_NAME} ${BZIP2_LIBRARIES})
     SET (PKG_CONFIG_LIBS "${PKG_CONFIG_LIBS} -lbz2")
 ENDIF(BZIP2_FOUND)
+
+#==============================================================================
+# WebAssembly module (Emscripten only):
+#==============================================================================
+
+IF(EMSCRIPTEN AND BUILD_WASM_MODULE)
+    IF(EXISTS "${CMAKE_SOURCE_DIR}/cfitsio-wasm.c")
+        ADD_EXECUTABLE(cfitsio_wasm cfitsio-wasm.c)
+        TARGET_LINK_LIBRARIES(cfitsio_wasm PRIVATE ${LIB_NAME})
+        TARGET_INCLUDE_DIRECTORIES(cfitsio_wasm PRIVATE ${CMAKE_SOURCE_DIR})
+
+        SET_TARGET_PROPERTIES(cfitsio_wasm PROPERTIES
+            OUTPUT_NAME "cfitsio"
+            SUFFIX ".js"
+        )
+
+        TARGET_LINK_OPTIONS(cfitsio_wasm PRIVATE
+            -sUSE_ZLIB=1
+            -sMODULARIZE=1
+            -sEXPORT_ES6=1
+            -sEXPORT_ALL=1
+            "-sEXPORTED_FUNCTIONS=${WASM_EXPORTED_FUNCTIONS}"
+            "-sINITIAL_MEMORY=${WASM_INITIAL_MEMORY}"
+            "-sMAXIMUM_MEMORY=${WASM_MAXIMUM_MEMORY}"
+            -sALLOW_MEMORY_GROWTH=1
+        )
+
+        MESSAGE(STATUS "WASM module will be built: cfitsio.js/cfitsio.wasm")
+    ELSE()
+        MESSAGE(WARNING "BUILD_WASM_MODULE is ON but cfitsio-wasm.c not found")
+    ENDIF()
+ENDIF()
 
 #==============================================================================
 

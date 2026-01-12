@@ -1,0 +1,51 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default (Native)",
+      "description": "Native build with default settings",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "wasm",
+      "displayName": "WebAssembly (Emscripten)",
+      "description": "Build cfitsio as a WebAssembly module using Emscripten",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-wasm",
+      "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_SHARED_LIBS": "OFF",
+        "BUILD_WASM_MODULE": "ON",
+        "USE_CURL": "OFF",
+        "USE_BZIP2": "OFF",
+        "USE_PTHREADS": "OFF",
+        "TESTS": "OFF",
+        "UTILS": "OFF",
+        "CMAKE_C_FLAGS_RELEASE": "-O3",
+        "CMAKE_EXE_LINKER_FLAGS": "-O3 -sUSE_ZLIB=1"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "displayName": "Default Build",
+      "configurePreset": "default"
+    },
+    {
+      "name": "wasm",
+      "displayName": "WebAssembly Build",
+      "configurePreset": "wasm"
+    }
+  ]
+}

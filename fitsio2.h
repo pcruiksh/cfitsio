@@ -234,7 +234,13 @@ extern int Fitsio_Pthread_Status;
 /*  e.g., Macs fall into this category  */
 
 #define CFITSIO_MACHINE NATIVE
+
+#ifdef __EMSCRIPTEN__
+/* Emscripten/WASM is little-endian, needs byte swap vs FITS big-endian */
+#define BYTESWAPPED TRUE
+#else
 #define BYTESWAPPED FALSE
+#endif
  
 #endif
 
@@ -245,10 +251,6 @@ extern int Fitsio_Pthread_Status;
 /*  assume longs are 4 bytes long, unless previously set otherwise */
 #ifndef LONGSIZE
 #define LONGSIZE 32
-#endif
-
-#ifdef __EMSCRIPTEN__     
-#define BYTESWAPPED TRUE
 #endif
 
 /*       end of block that determine long size and byte swapping        */ 
