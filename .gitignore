@@ -48,6 +48,9 @@
 *.log
 *.pc
 *.status
+
+# Local emsdk installation (downloaded by build-wasm scripts)
+.emsdk/
 *.xcodeproj/project.xcworkspace
 *.xcodeproj/xcuserdata
 .deps/
