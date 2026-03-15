@@ -7,8 +7,16 @@ int write_fits(const char* filename, int bitpix, long* naxes, int naxis, void* d
     fitsfile *fptr;
     int status = 0;
 
+    // Prepend '!' to overwrite existing file (CFITSIO convention)
+    size_t len = strlen(filename);
+    char* overwrite_name = (char*)malloc(len + 2);
+    if (!overwrite_name) return -1;
+    overwrite_name[0] = '!';
+    memcpy(overwrite_name + 1, filename, len + 1);
+
     // Create new FITS file (overwrite if exists)
-    fits_create_file(&fptr, filename, &status);
+    fits_create_file(&fptr, overwrite_name, &status);
+    free(overwrite_name);
     if (status != 0) return status;
 
     // Create the primary array image (2D, 3D, etc.)
