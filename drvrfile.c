@@ -92,7 +92,7 @@ int file_open(char *filename, int rwmode, int *handle)
 {
     FILE *diskfile;
     int copyhandle, ii, status;
-    char recbuf[2880];
+    char recbuf[2880], *tstEnv=0;
     size_t nread;
 
     /*
@@ -109,6 +109,17 @@ int file_open(char *filename, int rwmode, int *handle)
       if (status) {
         file_outfile[0] = '\0';
         return(status);
+      }
+      
+      tstEnv = getenv("CFITSIO_DISABLE_COPY_RESTRICT");
+      if (!tstEnv || tstEnv[0] != '1')
+      {
+         if (!check_is_file_fits(diskfile))
+         {
+           ffpmsg("Input file is not a FITS file.  Cannot create output file.");
+           ffpmsg(file_outfile);
+           return (FILE_NOT_OPENED);
+         }
       }
       
       /* create the output file */
@@ -835,7 +846,7 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
 {
     FILE *indiskfile, *outdiskfile;
     int status;
-    char *cptr;
+    char *cptr, *tstEnv=0;
 
     /* open the compressed disk file */
     status = file_openfile(filename, READONLY, &indiskfile);
@@ -846,6 +857,17 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
         return(status);
     }
 
+    tstEnv = getenv("CFITSIO_DISABLE_COPY_RESTRICT");
+    if (!tstEnv || tstEnv[0] != '1')
+    {
+       if (!check_is_file_fits(indiskfile))
+       {
+         ffpmsg("Input file is not a FITS file.  Cannot create output file.");
+         ffpmsg(file_outfile);
+         return (FILE_NOT_OPENED);
+       }
+    }
+      
     /* name of the output uncompressed file is stored in the */
     /* global variable called 'file_outfile'.                */
 
@@ -1043,7 +1065,7 @@ int file_checkfile (char *urltype, char *infile, char *outfile)
 
 
 /*--------------------------------------------------------------------------*/
-int stream_open(char *filename, int rwmode, int *handle)
+int fits_stream_open(char *filename, int rwmode, int *handle)
 {
     /*
         read from stdin
@@ -1056,7 +1078,7 @@ int stream_open(char *filename, int rwmode, int *handle)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int stream_create(char *filename, int *handle)
+int fits_stream_create(char *filename, int *handle)
 {
     /*
         write to stdout
@@ -1070,7 +1092,7 @@ int stream_create(char *filename, int *handle)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int stream_size(int handle, LONGLONG *filesize)
+int fits_stream_size(int handle, LONGLONG *filesize)
 /*
   return the size of the file in bytes
 */
@@ -1082,7 +1104,7 @@ int stream_size(int handle, LONGLONG *filesize)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int stream_close(int handle)
+int fits_stream_close(int handle)
 /*
      don't have to close stdin or stdout 
 */
@@ -1092,7 +1114,7 @@ int stream_close(int handle)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int stream_flush(int handle)
+int fits_stream_flush(int handle)
 /*
   flush the file
 */
@@ -1103,7 +1125,7 @@ int stream_flush(int handle)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int stream_seek(int handle, LONGLONG offset)
+int fits_stream_seek(int handle, LONGLONG offset)
    /* 
       seeking is not allowed in a stream
    */
@@ -1112,7 +1134,7 @@ int stream_seek(int handle, LONGLONG offset)
     return(1);
 }
 /*--------------------------------------------------------------------------*/
-int stream_read(int hdl, void *buffer, long nbytes)
+int fits_stream_read(int hdl, void *buffer, long nbytes)
 /*
      reading from stdin stream 
 */
@@ -1134,7 +1156,7 @@ int stream_read(int hdl, void *buffer, long nbytes)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int stream_write(int hdl, void *buffer, long nbytes)
+int fits_stream_write(int hdl, void *buffer, long nbytes)
 /*
   write bytes at the current position in the file
 */

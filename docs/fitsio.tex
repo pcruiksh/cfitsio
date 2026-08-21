@@ -32,7 +32,7 @@
 \medskip
 \medskip
 \begin{center}
-{\Large Version 4.6\\}
+{\Large Version 4.7.0\\}
 \end{center}
 \bigskip
 \vskip 2.5cm
@@ -47,7 +47,7 @@ USA}
 \vfill
 \bigskip
 \begin{center}
-{\Large Mar 2025\\}
+{\Large Aug 2026\\}
 \end{center}
 \vfill
 \end{titlepage}
@@ -6181,6 +6181,7 @@ log(negative), log10(negative), arccos(.gt. 1), arcsin(.gt. 1).
     "minimum"            min(x,y)   "maximum"              max(x,y)
     "cumulative sum"     accum(x)   "sequential difference" seqdiff(x)
     "if-then-else"       b?x:y
+    "within-range"       x=a:b
     "angular separation" angsep(ra1,dec1,ra2,de2) (all in degrees)
     "substring"          strmid(s,p,n) "string search"     strstr(s,r)
 \end{verbatim}
@@ -6222,6 +6223,15 @@ value or expression.  There is no automatic type conversion from
 numeric to boolean values, so one needs to use "iVal!=0" instead of
 merely "iVal" as the boolean argument. x and y can be any scalar data
 type (including string).
+
+In the within-range expression, "x=a:b", the value of x is tested to
+be within the range a through b, where all of those values may be
+columns or expressions.  The result value is a boolean true or false.
+The expression is a shorthand notation equivalent to the expression
+"((a.le.x).and.(x.le.b))".  Despite the apperance of the notation with
+an equals sign, the value of x is not changed (and x is evaluated only
+once).  To avoid confusing some parsers, it is best to enclose the
+expression within a parenthesis, such as, "(x=a:b)".
 
 The angsep function computes the angular separation in degrees between
 2 celestial positions, where the first 2 parameters give the RA-like

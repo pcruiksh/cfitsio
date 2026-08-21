@@ -1,6 +1,6 @@
-#line 1 "eval_l.c"
+#line 2 "eval_l.c"
 
-#line 3 "eval_l.c"
+#line 4 "eval_l.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -601,11 +601,11 @@ static const YY_CHAR yy_ec[256] =
        20,   21,    1,    1,   22,   23,   24,   25,   26,   27,
        28,   29,   30,   31,   31,   32,   31,   33,   34,   31,
        35,   36,   31,   37,   38,   31,   31,   39,   31,   31,
-        1,    1,   40,   41,   42,    1,   43,   44,   24,   45,
+        1,    1,    1,   40,   41,    1,   42,   43,   24,   44,
 
-       46,   47,   48,   29,   49,   31,   31,   50,   31,   51,
-       52,   31,   53,   54,   31,   55,   56,   31,   31,   57,
-       31,   31,    1,   58,    1,    1,    1,    1,    1,    1,
+       45,   46,   47,   29,   48,   31,   31,   49,   31,   50,
+       51,   31,   52,   53,   31,   54,   55,   31,   31,   56,
+       31,   31,    1,   57,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -622,38 +622,38 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[59] =
+static const YY_CHAR yy_meta[58] =
     {   0,
         1,    1,    2,    1,    1,    1,    3,    1,    1,    1,
         1,    1,    1,    1,    4,    4,    4,    4,    1,    1,
         1,    4,    4,    4,    4,    4,    4,    5,    5,    5,
         5,    5,    5,    5,    5,    5,    5,    5,    5,    1,
-        1,    5,    4,    4,    4,    4,    4,    5,    5,    5,
-        5,    5,    5,    5,    5,    5,    5,    1
+        5,    4,    4,    4,    4,    4,    5,    5,    5,    5,
+        5,    5,    5,    5,    5,    5,    1
     } ;
 
 static const flex_int16_t yy_base[182] =
     {   0,
-        0,    0,  412,  413,  409,  413,  390,  404,  401,  400,
-      398,  396,   34,  392,   70,  114,   16,  383,   46,  382,
-       29,   84,  359,   28,  358,   52,  157,   64,   91,  128,
-      358,    0,   40,   27,   69,   92,  100,  171,  340,  395,
-      413,  391,  413,  388,  387,  386,  413,  413,  383,  357,
-      358,  356,  336,  337,  335,  413,  139,  190,  352,  349,
-       71,  111,  135,  347,  348,  330,  327,   59,   64,  116,
-      325,  323,  175,    0,   59,  120,  326,    0,  413,  413,
-      413,  153,  184,    0,  202,  209,  210,  219,  351,  220,
-      228,  229,  211,  230,  240,  413,  221,  246,  254,  263,
+        0,    0,  415,  416,  412,  416,  393,  407,  404,  403,
+      401,  399,   33,  395,   68,  111,   16,  386,   45,  385,
+       28,   58,  363,   27,  362,   50,  153,   52,   54,  105,
+      362,    0,   62,   57,   89,   94,  106,  148,  344,  398,
+      416,  394,  416,  391,  390,  389,  416,  416,  386,  360,
+      361,  359,  340,  341,  336,  416,  167,  190,  344,  337,
+       79,  105,  106,  328,  327,  309,  306,  104,  105,  115,
+      303,  304,  196,    0,  204,   55,  157,    0,  416,  416,
+      416,   65,  208,    0,  213,  216,  217,  222,  344,  227,
+      229,  230,  214,  249,  232,  416,  235,  246,  267,  268,
 
-      264,  265,  266,  239,  275,  413,  346,  342,  310,  313,
-      309,  289,  292,  288,  275,  317,  327,  326,  325,  324,
-      323,  322,  298,  320,  297,  287,  317,  315,  314,  312,
-      311,  310,  249,  289,  243,  294,  298,  134,  246,    0,
-      413,  285,  413,  413,  288,  308,  309,  261,  261,  256,
-      221,  215,  246,  241,  223,  218,  213,  208,  197,  413,
-      166,  160,  413,  128,  122,  150,  154,  105,  101,   96,
-      413,   84,  413,  351,  354,  359,  364,  366,  368,  373,
-       89
+      270,  275,  281,  252,  282,  416,  346,  344,  312,  315,
+      311,  290,  293,  289,  302,  317,  327,  326,  325,  324,
+      323,  322,  297,  318,  288,  271,  296,  293,  280,  272,
+      269,  261,  220,  258,  214,  282,  286,  137,  297,    0,
+      416,  311,  416,  416,  316,  319,  321,  238,  231,  239,
+      205,  205,  227,  211,  189,  188,  186,  179,  177,  416,
+      158,  151,  416,  137,   91,  112,  122,   78,  100,   97,
+      416,   93,  416,  362,  365,  370,  375,  377,  379,  384,
+       88
     } ;
 
 static const flex_int16_t yy_def[182] =
@@ -680,116 +680,116 @@ static const flex_int16_t yy_def[182] =
       173
     } ;
 
-static const flex_int16_t yy_nxt[472] =
+static const flex_int16_t yy_nxt[474] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
         4,   14,    4,   15,   16,   17,   17,   17,   18,   19,
        20,   21,   22,   23,   23,   24,   25,   26,   27,   23,
-       23,   28,   29,   30,   23,   23,   25,   23,   23,    4,
-       31,   32,   33,   22,   23,   34,   25,   35,   23,   36,
-       37,   38,   23,   23,   25,   23,   23,   39,   50,  173,
-       51,   83,   86,   52,   79,   80,   81,  173,   84,   84,
-       84,  136,  173,  137,  137,  137,  137,   87,   53,   98,
-       54,   84,   55,   57,   58,   58,   58,   58,   88,   90,
-       97,   59,  140,   84,  171,   60,  118,   61,   85,   85,
+       23,   28,   29,   30,   23,   23,   25,   23,   23,   31,
+       32,   33,   22,   23,   34,   25,   35,   23,   36,   37,
+       38,   23,   23,   25,   23,   23,   39,   50,  173,   51,
+       83,   86,   52,   79,   80,   81,  173,   84,   84,  138,
+      138,  173,   85,   85,  141,   87,   53,   90,   54,   92,
+       55,   57,   58,   58,   58,   58,   88,   93,   91,   59,
+       84,  140,   84,   60,   84,   61,   85,   84,   84,   62,
 
-       91,   62,   63,   64,  128,   84,  171,  119,   65,  130,
-       84,  171,   66,  129,   99,   67,   92,   68,  131,   69,
-       70,   71,   85,  100,   93,   84,   72,   73,   74,   74,
-       74,   74,   84,   84,  138,  138,  120,  101,   75,   75,
-       85,   84,   94,   94,   94,  103,  102,  121,  138,  138,
-      172,  104,   57,  115,  115,  115,  115,   76,   75,   75,
-      122,  132,  141,   95,  171,   77,   94,  133,  123,   84,
-       78,   89,   89,   89,   89,  170,  169,  168,   89,   89,
-       89,   89,   89,   89,   94,   94,   94,   94,   57,   58,
-       58,   58,   58,  141,   84,   89,  167,  166,   84,   89,
+       63,   64,   84,  171,  118,   84,   65,  171,   98,   66,
+      171,   97,   67,   85,   68,  119,   69,   70,   71,   94,
+       94,   94,  172,   72,   73,   74,   74,   74,   74,   84,
+      120,  122,  171,   99,   84,   75,   75,  170,  101,  123,
+       95,  121,  100,   94,  169,   84,   84,  102,  128,  130,
+      103,  138,  138,   76,   75,   75,  104,  129,  131,  132,
+       94,   77,   94,   94,   94,  133,   78,   89,   89,   89,
+       89,  139,  139,  139,   89,   89,   89,   89,   89,   89,
+       57,  115,  115,  115,  115,  168,   94,  167,   84,  166,
+       96,   89,  160,   84,   89,   89,   89,   89,   89,   48,
 
-       89,   89,   89,   89,   58,   58,   58,   58,  142,   94,
-       96,  141,   84,   89,   75,   75,   85,   85,  141,  141,
-      141,  160,   80,   81,  105,   84,   48,   94,  141,  141,
-      141,   96,  143,   79,   75,   75,  160,  141,  141,  141,
-       85,  144,   41,   84,   94,   94,   94,  145,  141,  141,
-       84,   84,   84,  106,   48,  141,  163,  165,   85,   80,
-       84,   84,   84,  141,  164,  146,  163,   81,   94,   84,
-       84,   84,  141,  141,  141,  141,  143,   79,  144,   41,
-       84,   84,  162,  161,  141,  139,   94,   84,  106,  115,
-      115,  115,  115,  147,  141,   84,  159,  141,   48,   75,
+      105,   96,  160,   94,   58,   58,   58,   58,   89,   57,
+       58,   58,   58,   58,   75,   75,  136,  141,  137,  137,
+      137,  137,  141,  141,   48,  141,  141,   85,   85,   80,
+       81,  141,  142,   75,   75,  143,  141,  163,  141,  141,
+       79,  141,  144,   41,  141,  106,  165,  164,   84,  163,
+      145,   85,  162,   84,   84,  141,   84,   84,  141,   80,
+      161,  141,   84,   94,   94,   94,  159,   84,   85,   84,
+       84,  106,   84,  158,   41,   84,  141,  141,  146,  141,
+       81,  143,  144,   79,  141,   79,   84,   94,  144,   84,
+      141,  141,   84,  143,   41,  106,  137,  137,  137,  137,
 
-       75,  160,  106,  158,   84,   84,   84,   84,  137,  137,
-      137,  137,  137,  137,  137,  137,   84,  141,  141,   75,
-       75,   48,  160,   41,  144,   79,   84,  143,   81,   84,
-       80,  157,  156,  106,  155,   41,  144,   79,  143,   81,
-       80,  154,  153,  152,  151,  150,  149,  148,  108,   84,
-       84,   42,  108,   42,   42,   42,   45,   45,   45,   46,
-      141,   46,   46,   46,   49,  139,   49,   49,   49,   82,
-       82,   84,   84,  107,  135,  107,  107,  107,  134,  127,
-      126,  125,  124,  117,  116,  114,  113,  112,  111,  110,
-      109,   43,   47,  173,  108,   43,   40,  106,   96,   84,
+      137,  137,  137,  137,   94,  147,   81,   84,   84,   80,
+       84,  139,  139,  139,  157,   84,  115,  115,  115,  115,
+      141,   84,   84,  156,   48,  141,   75,   75,  141,  160,
+      141,  106,   48,  155,  160,   41,  144,   79,  143,   81,
+       80,  154,  153,  152,  151,   75,   75,  150,  149,  148,
+      108,   84,  108,  141,  135,  134,   84,  127,  126,   84,
+      125,   84,   42,  124,   42,   42,   42,   45,   45,   45,
+       46,  117,   46,   46,   46,   49,  116,   49,   49,   49,
+       82,   82,   84,   84,  107,  114,  107,  107,  107,  113,
+      112,  111,  110,  109,   43,   47,  173,  108,   43,   40,
 
-       84,   81,   79,   56,   43,   48,   47,   44,   43,   41,
-       40,  173,    3,  173,  173,  173,  173,  173,  173,  173,
+      106,   96,   84,   84,   81,   79,   56,   43,   48,   47,
+       44,   43,   41,   40,  173,    3,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
-      173
+      173,  173,  173
     } ;
 
-static const flex_int16_t yy_chk[472] =
+static const flex_int16_t yy_chk[474] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,   13,   17,
-       13,   21,   24,   13,   19,   19,   19,   17,   34,   24,
-       21,   75,   17,   75,   75,   75,   75,   26,   13,   34,
-       13,   33,   13,   15,   15,   15,   15,   15,   26,   28,
-       33,   15,  181,   26,  172,   15,   61,   15,   22,   22,
+        1,    1,    1,    1,    1,    1,    1,   13,   17,   13,
+       21,   24,   13,   19,   19,   19,   17,   24,   21,   76,
+       76,   17,   22,   22,   82,   26,   13,   28,   13,   29,
+       13,   15,   15,   15,   15,   15,   26,   29,   28,   15,
+       26,  181,   28,   15,   29,   15,   22,   34,   22,   15,
 
-       28,   15,   15,   15,   68,   28,  170,   61,   15,   69,
-       35,  169,   15,   68,   35,   15,   29,   15,   69,   15,
-       15,   15,   22,   35,   29,   22,   15,   16,   16,   16,
-       16,   16,   29,   36,   76,   76,   62,   36,   16,   16,
-       22,   37,   30,   30,   30,   37,   36,   62,  138,  138,
-      168,   37,   57,   57,   57,   57,   57,   16,   16,   16,
-       63,   70,   82,   30,  167,   16,   30,   70,   63,   30,
-       16,   27,   27,   27,   27,  166,  165,  164,   27,   27,
-       27,   27,   27,   27,   30,   38,   38,   38,   73,   73,
-       73,   73,   73,   83,   82,   27,  162,  161,   27,   27,
+       15,   15,   33,  172,   61,   82,   15,  170,   34,   15,
+      169,   33,   15,   22,   15,   61,   15,   15,   15,   30,
+       30,   30,  168,   15,   16,   16,   16,   16,   16,   35,
+       62,   63,  167,   35,   36,   16,   16,  166,   36,   63,
+       30,   62,   35,   30,  165,   30,   37,   36,   68,   69,
+       37,  138,  138,   16,   16,   16,   37,   68,   69,   70,
+       30,   16,   38,   38,   38,   70,   16,   27,   27,   27,
+       27,   77,   77,   77,   27,   27,   27,   27,   27,   27,
+       57,   57,   57,   57,   57,  164,   38,  162,   38,  161,
+      159,   27,  158,   27,   27,   27,   27,   27,   27,  157,
 
-       27,   27,   27,   27,   58,   58,   58,   58,   83,   38,
-      159,   85,   38,   27,   58,   58,   85,   85,   86,   87,
-       93,  158,   86,   87,   38,   83,  157,   38,   88,   90,
-       97,  156,   88,   90,   58,   58,  155,   91,   92,   94,
-       85,   91,   92,   85,   94,   94,   94,   93,  104,   95,
-       86,   87,   93,   95,  154,   98,  153,  152,   85,   98,
-       88,   90,   97,   99,  151,   97,  150,   99,   94,   91,
-       92,   94,  100,  101,  102,  103,  100,  101,  102,  103,
-      104,   95,  149,  148,  105,  139,   94,   98,  105,  115,
-      115,  115,  115,  104,  142,   99,  135,  145,  142,  115,
+       38,  156,  155,   38,   58,   58,   58,   58,   27,   73,
+       73,   73,   73,   73,   58,   58,   75,   83,   75,   75,
+       75,   75,   85,   93,  154,   86,   87,   85,   85,   86,
+       87,   88,   83,   58,   58,   88,   90,  153,   91,   92,
+       90,   95,   91,   92,   97,   95,  152,  151,   83,  150,
+       93,   85,  149,   85,   93,   98,   86,   87,   94,   98,
+      148,  104,   88,   94,   94,   94,  135,   90,   85,   91,
+       92,  134,   95,  133,  132,   97,   99,  100,   97,  101,
+       99,  100,  131,  101,  102,  130,   98,   94,  102,   94,
+      103,  105,  104,  129,  103,  105,  136,  136,  136,  136,
 
-      115,  145,  134,  133,  100,  101,  102,  103,  136,  136,
-      136,  136,  137,  137,  137,  137,  105,  146,  147,  115,
-      115,  146,  147,  132,  131,  130,  142,  129,  128,  145,
-      127,  126,  125,  124,  123,  122,  121,  120,  119,  118,
-      117,  116,  114,  113,  112,  111,  110,  109,  108,  146,
-      147,  174,  107,  174,  174,  174,  175,  175,  175,  176,
-       89,  176,  176,  176,  177,   77,  177,  177,  177,  178,
-      178,  179,  179,  180,   72,  180,  180,  180,   71,   67,
-       66,   65,   64,   60,   59,   55,   54,   53,   52,   51,
-       50,   49,   46,   45,   44,   42,   40,   39,   31,   25,
+      137,  137,  137,  137,   94,  104,  128,   99,  100,  127,
+      101,  139,  139,  139,  126,  102,  115,  115,  115,  115,
+      142,  103,  105,  125,  142,  145,  115,  115,  146,  145,
+      147,  124,  146,  123,  147,  122,  121,  120,  119,  118,
+      117,  116,  114,  113,  112,  115,  115,  111,  110,  109,
+      108,  142,  107,   89,   72,   71,  145,   67,   66,  146,
+       65,  147,  174,   64,  174,  174,  174,  175,  175,  175,
+      176,   60,  176,  176,  176,  177,   59,  177,  177,  177,
+      178,  178,  179,  179,  180,   55,  180,  180,  180,   54,
+       53,   52,   51,   50,   49,   46,   45,   44,   42,   40,
 
-       23,   20,   18,   14,   12,   11,   10,    9,    8,    7,
-        5,    3,  173,  173,  173,  173,  173,  173,  173,  173,
+       39,   31,   25,   23,   20,   18,   14,   12,   11,   10,
+        9,    8,    7,    5,    3,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
       173,  173,  173,  173,  173,  173,  173,  173,  173,  173,
-      173
+      173,  173,  173
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -922,8 +922,8 @@ static int expr_read( ParseData *lParse, char *buf, int nbytes );
         if ( (result = expr_read( yylParse, (char *) buf, max_size )) < 0 ) \
             YY_FATAL_ERROR( "read() in flex scanner failed" );
 
-#line 925 "eval_l.c"
 #line 926 "eval_l.c"
+#line 927 "eval_l.c"
 
 #define INITIAL 0
 
@@ -1200,7 +1200,7 @@ YY_DECL
 #line 158 "eval.l"
 
 
-#line 1203 "eval_l.c"
+#line 1204 "eval_l.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1233,7 +1233,7 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 413 );
+		while ( yy_base[yy_current_state] != 416 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -1268,17 +1268,27 @@ YY_RULE_SETUP
 {
                   int len;
                   len = strlen(yytext);
+                  len--;
 		  while (yytext[len] == ' ')
 			len--;
-                  len = len - 1;
-		  strncpy(yylval->str,&yytext[1],len);
-		  yylval->str[len] = '\0';
+                  if (len >= MAX_STRLEN) {
+		     char errMsg[100];
+		     yylParse->status = PARSE_SYNTAX_ERR;
+		     strcpy (errMsg,"Bit string exceeds maximum length: '");
+		     strncat(errMsg, yytext, 20);
+		     strcat (errMsg,"...'");
+		     ffpmsg (errMsg);
+                     yylval->str[0] = '\0';
+                  } else {
+		     strncpy(yylval->str,&yytext[1],len);
+		     yylval->str[len] = '\0';
+                  }
 		  return( BITSTR );
 		}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 171 "eval.l"
+#line 181 "eval.l"
 {
                   int len;
                   char tmpstring[256];
@@ -1293,56 +1303,86 @@ YY_RULE_SETUP
 		    ffpmsg (errMsg);
 		    len = 0;
 		  } else {
+		    len = len - 1;
 		    while (yytext[len] == ' ')
 		      len--;
-		    len = len - 1;
 		    strncpy(tmpstring,&yytext[1],len);
 		  }
                   tmpstring[len] = '\0';
                   bitstring[0] = '\0';
-		  len = 0;
-                  while ( tmpstring[len] != '\0')
+		  size_t bitlen = 0;
+		  size_t bitcap = sizeof(bitstring) - 1;
+		  int overflow = 0;
+		  for (len = 0; tmpstring[len] != '\0'; len++)
                        {
+			const char *chunk = NULL;
+			size_t chunk_len = 0;
 			switch ( tmpstring[len] )
 			      {
 			       case '0':
-					strcat(bitstring,OCT_0);
+					chunk = OCT_0;
+					chunk_len = sizeof(OCT_0) - 1;
 					break;
 			       case '1':
-					strcat(bitstring,OCT_1);
+					chunk = OCT_1;
+					chunk_len = sizeof(OCT_1) - 1;
 					break;
 			       case '2':
-					strcat(bitstring,OCT_2);
+					chunk = OCT_2;
+					chunk_len = sizeof(OCT_2) - 1;
 					break;
 			       case '3':
-					strcat(bitstring,OCT_3);
+					chunk = OCT_3;
+					chunk_len = sizeof(OCT_3) - 1;
 					break;
 			       case '4':
-					strcat(bitstring,OCT_4);
+					chunk = OCT_4;
+					chunk_len = sizeof(OCT_4) - 1;
 					break;
 			       case '5':
-					strcat(bitstring,OCT_5);
+					chunk = OCT_5;
+					chunk_len = sizeof(OCT_5) - 1;
 					break;
 			       case '6':
-					strcat(bitstring,OCT_6);
+					chunk = OCT_6;
+					chunk_len = sizeof(OCT_6) - 1;
 					break;
 			       case '7':
-					strcat(bitstring,OCT_7);
+					chunk = OCT_7;
+					chunk_len = sizeof(OCT_7) - 1;
 					break;
 			       case 'x':
 			       case 'X':
-					strcat(bitstring,OCT_X);
+					chunk = OCT_X;
+					chunk_len = sizeof(OCT_X) - 1;
 					break;
 			      }
-			len++;
+			if (chunk) {
+			   if (bitlen + chunk_len > bitcap) {
+			     char errMsg[100];
+			     yylParse->status = PARSE_SYNTAX_ERR;
+			     strcpy (errMsg,"Bit string exceeds maximum length: '");
+			     strncat(errMsg, &(yytext[0]), 20);
+			     strcat (errMsg,"...'");
+			     ffpmsg (errMsg);
+			     overflow = 1;
+			     break;
+			   }
+			   memcpy(bitstring + bitlen, chunk, chunk_len);
+			   bitlen += chunk_len;
+			   bitstring[bitlen] = '\0';
+			}
                        }
-                  strcpy( yylval->str, bitstring );
+                  if (overflow)
+		    yylval->str[0] = '\0';
+		  else
+                    strcpy( yylval->str, bitstring );
 		  return( BITSTR );
 		}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 231 "eval.l"
+#line 271 "eval.l"
 {
                   int len;
                   char tmpstring[256];
@@ -1357,87 +1397,125 @@ YY_RULE_SETUP
 		    ffpmsg (errMsg);
 		    len = 0;
 		  } else {
+                    len = len - 1;
 		    while (yytext[len] == ' ')
 		      len--;
-		    len = len - 1;
 		    strncpy(tmpstring,&yytext[1],len);
 		  }
                   tmpstring[len] = '\0';
                   bitstring[0] = '\0';
-		  len = 0;
-                  while ( tmpstring[len] != '\0')
+		  size_t bitlen = 0;
+		  size_t bitcap = sizeof(bitstring) - 1;
+		  int overflow = 0;
+                  for (len = 0; tmpstring[len] != '\0'; len++)
                        {
+			const char *chunk = NULL;
+			size_t chunk_len = 0;
 			switch ( tmpstring[len] )
 			      {
 			       case '0':
-					strcat(bitstring,HEX_0);
+					chunk = HEX_0;
+					chunk_len = sizeof(HEX_0) - 1;
 					break;
 			       case '1':
-					strcat(bitstring,HEX_1);
+					chunk = HEX_1;
+					chunk_len = sizeof(HEX_1) - 1;
 					break;
 			       case '2':
-					strcat(bitstring,HEX_2);
+					chunk = HEX_2;
+					chunk_len = sizeof(HEX_2) - 1;
 					break;
 			       case '3':
-					strcat(bitstring,HEX_3);
+					chunk = HEX_3;
+					chunk_len = sizeof(HEX_3) - 1;
 					break;
 			       case '4':
-					strcat(bitstring,HEX_4);
+					chunk = HEX_4;
+					chunk_len = sizeof(HEX_4) - 1;
 					break;
 			       case '5':
-					strcat(bitstring,HEX_5);
+					chunk = HEX_5;
+					chunk_len = sizeof(HEX_5) - 1;
 					break;
 			       case '6':
-					strcat(bitstring,HEX_6);
+					chunk = HEX_6;
+					chunk_len = sizeof(HEX_6) - 1;
 					break;
 			       case '7':
-					strcat(bitstring,HEX_7);
+					chunk = HEX_7;
+					chunk_len = sizeof(HEX_7) - 1;
 					break;
 			       case '8':
-					strcat(bitstring,HEX_8);
+					chunk = HEX_8;
+					chunk_len = sizeof(HEX_8) - 1;
 					break;
 			       case '9':
-					strcat(bitstring,HEX_9);
+					chunk = HEX_9;
+					chunk_len = sizeof(HEX_9) - 1;
 					break;
 			       case 'a':
 			       case 'A':
-					strcat(bitstring,HEX_A);
+					chunk = HEX_A;
+					chunk_len = sizeof(HEX_A) - 1;
 					break;
 			       case 'b':
 			       case 'B':
-					strcat(bitstring,HEX_B);
+					chunk = HEX_B;
+					chunk_len = sizeof(HEX_B) - 1;
 					break;
 			       case 'c':
 			       case 'C':
-					strcat(bitstring,HEX_C);
+					chunk = HEX_C;
+					chunk_len = sizeof(HEX_C) - 1;
 					break;
 			       case 'd':
 			       case 'D':
-					strcat(bitstring,HEX_D);
+					chunk = HEX_D;
+					chunk_len = sizeof(HEX_D) - 1;
 					break;
 			       case 'e':
 			       case 'E':
-					strcat(bitstring,HEX_E);
+					chunk = HEX_E;
+					chunk_len = sizeof(HEX_E) - 1;
 					break;
 			       case 'f':
 			       case 'F':
-					strcat(bitstring,HEX_F);
+					chunk = HEX_F;
+					chunk_len = sizeof(HEX_F) - 1;
 					break;
 			       case 'x':
 			       case 'X':
-					strcat(bitstring,HEX_X);
+					chunk = HEX_X;
+					chunk_len = sizeof(HEX_X) - 1;
 					break;
 			      }
-			len++;
+			if (chunk) {
+			   if (bitlen + chunk_len > bitcap) {
+			     char errMsg[100];
+			     yylParse->status = PARSE_SYNTAX_ERR;
+			     strcpy (errMsg,"Hex string exceeds maximum length: '");
+			     strncat(errMsg, &(yytext[0]), 20);
+			     strcat (errMsg,"...'");
+			     ffpmsg (errMsg);
+			     overflow = 1;
+			     break;
+			   }
+			   memcpy(bitstring + bitlen, chunk, chunk_len);
+			   bitlen += chunk_len;
+			   bitstring[bitlen] = '\0';
+			}
                        }
 
-                  strcpy( yylval->str, bitstring );
+                  if (overflow)
+		    yylval->str[0] = '\0';
+		  else
+                    strcpy( yylval->str, bitstring );
 		  return( BITSTR );
 		}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 322 "eval.l"
+#line 400 "eval.l"
 {
 		  long int constval = 0;
 		  char *p;
@@ -1450,7 +1528,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 331 "eval.l"
+#line 409 "eval.l"
 {
 		  long int constval = 0;
 		  char *p;
@@ -1463,7 +1541,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 340 "eval.l"
+#line 418 "eval.l"
 {
 		  long int constval = 0;
 		  char *p;
@@ -1477,7 +1555,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 352 "eval.l"
+#line 430 "eval.l"
 {
                   yylval->lng = atol(yytext);
 		  return( LONG );
@@ -1485,7 +1563,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 356 "eval.l"
+#line 434 "eval.l"
 {
                   if ((yytext[0] == 't') || (yytext[0] == 'T'))
 		    yylval->log = 1;
@@ -1496,7 +1574,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 363 "eval.l"
+#line 441 "eval.l"
 {
                   yylval->dbl = atof(yytext);
 		  return( DOUBLE );
@@ -1504,7 +1582,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 367 "eval.l"
+#line 445 "eval.l"
 {
                   if(        !fits_strcasecmp(yytext,"#PI") ) {
 		     yylval->dbl = (double)(4) * atan((double)(1));
@@ -1526,9 +1604,20 @@ YY_RULE_SETUP
 		     int result;
                      if (yytext[1] == '$') {
                         len = strlen(yytext) - 3;
-                        yylval->str[0]     = '#';
-                        strncpy(yylval->str+1,&yytext[2],len);
-                        yylval->str[len+1] = '\0';
+                        if (len >= MAX_STRLEN-1)
+                        {
+		           char errMsg[100];
+		           yylParse->status = PARSE_SYNTAX_ERR;
+		           strcpy (errMsg,"Keyword string exceeds maximum length: '");
+		           strncat(errMsg, yytext, 20);
+		           strcat (errMsg,"...'");
+		           ffpmsg (errMsg);
+                           yylval->str[0] = '\0';
+                        } else {
+                           yylval->str[0]     = '#';
+                           strncpy(yylval->str+1,&yytext[2],len);
+                           yylval->str[len+1] = '\0';
+                        }
                         yytext = yylval->str;
 		     }
                      result = (*yylParse->getData)(yylParse, yytext, (yylval));
@@ -1538,7 +1627,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 397 "eval.l"
+#line 486 "eval.l"
 {
                   int len;
                   len = strlen(yytext) - 2;
@@ -1559,11 +1648,21 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 414 "eval.l"
+#line 503 "eval.l"
 {
 		 int    len,type;
-
-                 if (yytext[0] == '$') {
+		 
+                 len=strlen(yytext);
+                 if (len >= MAX_STRLEN) {
+		    char errMsg[100];
+		    yylParse->status = PARSE_SYNTAX_ERR;
+		    strcpy (errMsg,"Variable exceeds maximum length: '");
+		    strncat(errMsg, yytext, 20);
+		    strcat (errMsg,"...'");
+		    ffpmsg (errMsg);
+                    yylval->str[0] = '\0';
+		    yytext = yylval->str;
+                 } else if (yytext[0] == '$') {
 		    len = strlen(yytext) - 2;
 		    strncpy(yylval->str,&yytext[1],len);
 		    yylval->str[len] = '\0';
@@ -1575,12 +1674,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 426 "eval.l"
+#line 525 "eval.l"
 {
                   char *fname;
-		  int len=0;
+		  int len=strlen(yytext);
                   fname = &(yylval->str[0]);
-		  while( (fname[len]=toupper(yytext[len])) ) len++;
+                  if (len >= MAX_STRLEN) {
+		    char errMsg[100];
+		    yylParse->status = PARSE_SYNTAX_ERR;
+		    strcpy (errMsg,"Function exceeds maximum length: '");
+		    strncat(errMsg, yytext, 20);
+		    strcat (errMsg,"...'");
+		    ffpmsg (errMsg);
+		    len = 0;
+                    fname[0] = '\0';
+                  } else {
+                     len = 0;
+		     while( (fname[len]=toupper(yytext[len])) ) len++;
+                  }
 
                   if(      FSTRCMP(fname,"BOX(")==0 
                         || FSTRCMP(fname,"CIRCLE(")==0 
@@ -1612,86 +1723,86 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 459 "eval.l"
+#line 570 "eval.l"
 { return( INTCAST ); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 460 "eval.l"
+#line 571 "eval.l"
 { return( FLTCAST ); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 461 "eval.l"
+#line 572 "eval.l"
 { return( POWER   ); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 462 "eval.l"
+#line 573 "eval.l"
 { return( NOT     ); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 463 "eval.l"
+#line 574 "eval.l"
 { return( OR      ); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 464 "eval.l"
+#line 575 "eval.l"
 { return( AND     ); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 465 "eval.l"
+#line 576 "eval.l"
 { return( EQ      ); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 466 "eval.l"
+#line 577 "eval.l"
 { return( NE      ); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 467 "eval.l"
+#line 578 "eval.l"
 { return( GT      ); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 468 "eval.l"
+#line 579 "eval.l"
 { return( LT      ); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 469 "eval.l"
+#line 580 "eval.l"
 { return( GTE     ); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 470 "eval.l"
+#line 581 "eval.l"
 { return( LTE     ); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 471 "eval.l"
+#line 582 "eval.l"
 { return( XOR     ); }
 	YY_BREAK
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 472 "eval.l"
+#line 583 "eval.l"
 { return( '\n'    ); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 473 "eval.l"
+#line 584 "eval.l"
 { return( yytext[0] ); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 474 "eval.l"
+#line 585 "eval.l"
 ECHO;
 	YY_BREAK
-#line 1694 "eval_l.c"
+#line 1806 "eval_l.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2872,7 +2983,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 474 "eval.l"
+#line 585 "eval.l"
 
 
 int yywrap(yyscan_t scanner)

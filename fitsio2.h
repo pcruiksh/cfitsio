@@ -1156,7 +1156,7 @@ int fits_rdecomp_short (unsigned char *c, int clen, unsigned short array[], int 
 int fits_rdecomp_byte (unsigned char *c, int clen, unsigned char array[], int nx,
              int nblock);
 int pl_p2li (int *pxsrc, int xs, short *lldst, int npix);
-int pl_l2pi (short *ll_src, int xs, int *px_dst, int npix);
+int pl_l2pi (short *ll_src, size_t srclen, int xs, int *px_dst, int npix);
 int fits_init_randoms(void);
 int fits_unset_compression_param( fitsfile *fptr, int *status);
 int fits_unset_compression_request( fitsfile *fptr, int *status);
@@ -1187,6 +1187,11 @@ int fits_register_driver( char *prefix,
 	int (*fitsread) (int driverhandle, void *buffer, long nbytes),
 	int (*fitswrite)(int driverhandle, void *buffer, long nbytes));
 
+/* utilities may be called by multiple drivers */
+
+int check_is_file_fits(FILE* fp);
+int check_is_mem_fits(char *inputmem, size_t len);
+
 /* file driver I/O routines */
 
 int file_init(void);
@@ -1211,14 +1216,14 @@ int file_is_compressed(char *filename);
 
 /* stream driver I/O routines */
 
-int stream_open(char *filename, int rwmode, int *driverhandle);
-int stream_create(char *filename, int *driverhandle);
-int stream_size(int driverhandle, LONGLONG *filesize);
-int stream_close(int driverhandle);
-int stream_flush(int driverhandle);
-int stream_seek(int driverhandle, LONGLONG offset);
-int stream_read (int driverhandle, void *buffer, long nbytes);
-int stream_write(int driverhandle, void *buffer, long nbytes);
+int fits_stream_open(char *filename, int rwmode, int *driverhandle);
+int fits_stream_create(char *filename, int *driverhandle);
+int fits_stream_size(int driverhandle, LONGLONG *filesize);
+int fits_stream_close(int driverhandle);
+int fits_stream_flush(int driverhandle);
+int fits_stream_seek(int driverhandle, LONGLONG offset);
+int fits_stream_read (int driverhandle, void *buffer, long nbytes);
+int fits_stream_write(int driverhandle, void *buffer, long nbytes);
 
 /* memory driver I/O routines */
 

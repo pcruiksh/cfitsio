@@ -10,6 +10,49 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  build-windows:
+    runs-on: windows-latest
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
+      VCPKG_BINARY_SOURCES: 'clear;files,${{ github.workspace }}/vcpkg-cache,readwrite'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v7
+
+    - name: Create Cache Directory
+      run: mkdir -p ${{ github.workspace }}/vcpkg-cache
+
+    # Must happen BEFORE vcpkg executes or CMake runs
+    - name: Restore vcpkg Binary Cache
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-
+
+    # 1. Manually install zlib using the built-in vcpkg executable
+    - name: Install zlib via vcpkg
+      run: |
+        vcpkg install zlib:x64-windows
+
+    # 2. Configure CMake by passing the toolchain file
+    - name: Configure CMake
+      shell: powershell
+      run: >
+        cmake -B ${{github.workspace}}/build 
+        -DUSE_CURL=OFF
+        -DCMAKE_BUILD_TYPE=Release
+        -DVCPKG_TARGET_TRIPLET=x64-windows
+        -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+
+    - name: Build Project
+      run: cmake --build ${{github.workspace}}/build --config Release
+
+    - name: Test Project
+      run: ctest --test-dir build -C Release --output-on-failure
+
   build-default:
     runs-on: ${{ matrix.os }}
     continue-on-error: true
@@ -18,7 +61,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]  # Define multiple runners to use
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: echo "Running on ${{ matrix.os }}"
 
       - name: Update packages and install dependencies
@@ -34,12 +77,9 @@ jobs:
         run: |
           make
 
-      - name: Test
+      - name: Distribution check (including tests) with defaults
         run: |
-          make testprog
-          ./testprog > testprog.lis
-          diff testprog.lis testprog.out
-          cmp testprog.fit testprog.std
+          make distcheck
 
       - name: Cookbook
         run: |
@@ -58,14 +98,11 @@ jobs:
       - name: Make with optional features
         run: make
 
-      - name: Test
+      - name: Test with optional features
         run: |
-          make testprog
-          ./testprog > testprog.lis
-          diff testprog.lis testprog.out
-          cmp testprog.fit testprog.std
+          make check
 
-    
+
 #      - name: Iterators
 #        run: |
 #          ./iter_a

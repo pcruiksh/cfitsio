@@ -240,6 +240,7 @@ int uncompress2mem_from_mem(
 
             } else  { /* error: no realloc function available */
                 inflateEnd(&d_stream);
+                if (filesize) *filesize = d_stream.total_out;
                 return(*status = 414);
             }
         } else {  /* some other error */

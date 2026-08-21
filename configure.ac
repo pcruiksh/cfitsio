@@ -2,8 +2,8 @@
 
 # Package name and version number:
 m4_define([v_maj], [4])
-m4_define([v_min], [6])
-m4_define([v_mic], [3])
+m4_define([v_min], [7])
+m4_define([v_mic], [0])
 m4_define([project_version], [v_maj.v_min.v_mic])
 AC_INIT([cfitsio], [project_version])
 #AC_INIT([cfitsio], [project_version], [ccfits@heasarc.gsfc.nasa.gov], [tarname], [url])
@@ -591,6 +591,7 @@ if test "x$BUILD_REENTRANT" = xyes; then
   fi
   AC_CHECK_LIB([pthread],[main],[],[AC_MSG_ERROR(Unable to locate pthread library needed when enabling reentrant multithreading)])
 fi
+AC_SUBST(BUILD_REENTRANT)
 
 # -------------------------------------------------------------------------
 # there are some idiosyncrasies with semun defs (used in semxxx). Solaris

@@ -57,6 +57,9 @@ static int find_paren(char **string);
 static int find_bracket(char **string);
 static int find_curlybracket(char **string);
 static int standardize_path(char *fullpath, int *status);
+static int normalize_path(char *fullpath, int* status);
+static int exclude_path(char *testpath);
+static char* skip_host_string(char *testpath);
 int comma2semicolon(char *string);
 
 #ifdef _REENTRANT
@@ -574,13 +577,13 @@ int ffopen(fitsfile **fptr,      /* O - FITS file pointer                   */
     char extname[FLEN_VALUE], rowfilter[FLEN_FILENAME], tblname[FLEN_VALUE];
     char imagecolname[FLEN_VALUE], rowexpress[FLEN_FILENAME];
     char binspec[FLEN_FILENAME], colspec[FLEN_FILENAME], pixfilter[FLEN_FILENAME];
-    char histfilename[FLEN_FILENAME];
+    char histfilename[FLEN_FILENAME], testpath[FLEN_FILENAME];
     char filtfilename[FLEN_FILENAME], compspec[FLEN_FILENAME];
     char wtcol[FLEN_VALUE];
     char minname[4][FLEN_VALUE], maxname[4][FLEN_VALUE];
     char binname[4][FLEN_VALUE];
 
-    char *url;
+    char *url, *tstEnv=0, *pathstart=0;
     double minin[4], maxin[4], binsizein[4], weight;
     int imagetype, naxis = 1, haxis, recip;
     long *naxes=0;
@@ -680,6 +683,35 @@ int ffopen(fitsfile **fptr,      /* O - FITS file pointer                   */
         /* call the newer version of this parsing routine that supports 'compspec' */
         ffifile2(url, urltype, infile, outfile, extspec,
               rowfilter, binspec, colspec, pixfilter, compspec, status);
+        tstEnv = getenv("CFITSIO_DISABLE_COPY_RESTRICT");
+        if (!tstEnv || tstEnv[0] != '1')
+        {
+           if (strlen(infile) && strlen(outfile))
+           {
+              pathstart = strncmp(urltype,"file",4) ?
+                      skip_host_string(infile) : infile;
+              strcpy(testpath,pathstart);
+              if (normalize_path(testpath,status))
+              {
+                 ffpmsg("Unable to normalize input file path (ffopen)");
+                 ffpmsg(testpath);
+                 return(*status);
+              }
+              if (exclude_path(testpath))
+              {
+                 ffpmsg("Attempting to access an invalid directory (ffopen)");
+                 ffpmsg(testpath);
+                 *status = FILE_NOT_OPENED;
+                 return(*status);
+              }
+           }
+           if (!strncmp(urltype,"rawfile",7) && !strncmp(outfile,"root:",5))
+           {
+              ffpmsg("The copying of a raw binary file to the root driver has been disabled.");
+              *status = FILE_NOT_OPENED;
+              return (*status);
+           }
+        }
     }
     
     if (*status > 0)
@@ -1695,6 +1727,52 @@ int fits_already_open(fitsfile **fptr, /* I/O - FITS file pointer       */
     return(*status);
 }
 /*--------------------------------------------------------------------------*/
+int check_is_file_fits(FILE* fp)
+{
+   char buf[1000];
+   size_t nread=0;
+   
+   nread = fread(buf,1,1000,fp);
+   rewind(fp);
+   if (!nread)
+      return 0;
+   
+   return (check_is_mem_fits(buf, nread));
+}
+/*--------------------------------------------------------------------------*/
+int check_is_mem_fits(char *inputmem, size_t len)
+{
+  int isFits = 0;
+  
+  /* Check for gzip magic number */
+  if (len >= 2 &&
+      (unsigned char) inputmem[0] == 0x1f && 
+      (unsigned char) inputmem[1] == 0x8b) {
+     /* Just need to uncompress the beginning portion of the
+        file to test for FITS.  So just pass a small buffer
+        that won't be reallocated by uncompress2mem_from_mem.*/
+     size_t nBuff=100, nUncomp=0; 
+     int status=0;  
+     char *tstFits = (char*)malloc(nBuff+1);
+     /* This will return a bad status if all of inputmem buffer
+        can't be uncompressed into tstFits, but we don't care. */
+     uncompress2mem_from_mem(inputmem,len,&tstFits,
+        &nBuff, NULL, &nUncomp, &status);
+     tstFits[nUncomp] = 0;
+     if (strlen(tstFits) >= 6 && !strncmp(tstFits,"SIMPLE",6))
+        isFits=1;     
+     free(tstFits);
+  }
+  else
+  {
+     if (len >= 6 && !strncmp(inputmem,"SIMPLE",6))
+        isFits=1;
+  }
+  
+   return isFits;
+}
+
+/*--------------------------------------------------------------------------*/
 int standardize_path(char *fullpath, int* status)
 {
    /* Utility function for common operation in fits_already_open 
@@ -1721,6 +1799,98 @@ int standardize_path(char *fullpath, int* status)
    strcpy(fullpath, tmpPath);
       
    return (*status);
+}
+/*--------------------------------------------------------------------------*/
+int normalize_path(char *fullpath, int* status)
+{
+   /* This differs from the standardize_path utility function in that this is
+     intended to perform '/./' and '/../' conversion for both absolute and relative
+     input paths. standardize_path only operates on relative input paths. */
+   char tmpPath[FLEN_FILENAME];
+   char cwd [FLEN_FILENAME];
+   
+   /* Not handling '~' in here */
+   if (fullpath[0] == '~')
+      return *status;
+    
+   if (fullpath[0] != '/')
+   {
+      fits_get_cwd(cwd,status);
+      if (strlen(cwd) + strlen(fullpath) + 1 > FLEN_FILENAME-1) {
+	    ffpmsg("File name is too long. (normalize_path)");
+            return(*status = FILE_NOT_OPENED);
+      }
+      strcat(cwd,"/");
+      strcat(cwd,fullpath);
+      fits_clean_url(cwd,fullpath,status);
+   }
+   else
+   {
+      fits_clean_url(fullpath,tmpPath,status);
+      strcpy(fullpath, tmpPath);
+   }
+      
+   return (*status);
+}
+
+/*--------------------------------------------------------------------------*/
+int exclude_path(char *testpath)
+{
+   const int NEXCLUDE=2;
+   const char *excludeStrs[]={"/etc/","/var/"};
+   const char updir[]="..";
+   int i, exclude=0;
+   
+   if (testpath[0] == '~')
+   {
+      /* For home directory '~' paths, will forbid a combination
+         of '..' and an appearance of the excludeStrs anywhere in
+         the testpath.  */
+      if (strstr(testpath,updir))
+      {
+         for (i=0; i<NEXCLUDE && !exclude; ++i)
+            if (strstr(testpath,excludeStrs[i]))
+               exclude = 1;
+      }
+   }
+   else
+   {
+      for (i=0; i<NEXCLUDE && !exclude; ++i)
+         exclude = !strncmp(testpath, excludeStrs[i], strlen(excludeStrs[i]));
+   }
+   return exclude;
+}
+/*--------------------------------------------------------------------------*/
+char* skip_host_string(char *testpath)
+{
+   char *p=0, *pslash=0;
+   
+   if (strlen(testpath) < 2 || testpath[0] == '~' || testpath[0] == '/' )
+      return testpath;
+
+   pslash = strchr(testpath, '/');
+   if (!pslash)
+      return testpath;
+   
+   /* don't treat ./ or ../ as a host string */
+   if (!strncmp(testpath,"./",2) || !strncmp(testpath,"../",3))
+      return testpath;
+   
+   /* any ':' assume is part of host */
+   p = strchr(testpath,':');
+   if (p && p < pslash)
+      return pslash;   
+      
+   p = strchr(testpath, '.');
+   /* If testpath starts with a '.', look for a second '.' before the '/'. */  
+   if (p == testpath)
+      p = strchr(testpath+1,'.');
+      
+   if (!p || pslash < p)
+      return testpath;
+   
+   /* assume everything before the first slash is a host name.*/
+   return pslash; 
 }
 /*--------------------------------------------------------------------------*/
 int fits_is_this_a_copy(char *urltype) /* I - type of file */
@@ -5104,16 +5274,16 @@ int fits_init_cfitsio(void)
             NULL, 
             NULL,
 	    NULL,
-            stream_open,
-            stream_create,
+            fits_stream_open,
+            fits_stream_create,
             NULL,   /* no stream truncate function */
-            stream_close,
+            fits_stream_close,
             NULL,   /* no stream remove */
-            stream_size,
-            stream_flush,
-            stream_seek,
-            stream_read,
-            stream_write);
+            fits_stream_size,
+            fits_stream_flush,
+            fits_stream_seek,
+            fits_stream_read,
+            fits_stream_write);
 
     if (status)
     {

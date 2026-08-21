@@ -78,9 +78,11 @@ float ffvers(float *version)  /* IO - version number */
       *version = (float)CFITSIO_MAJOR + (float)(.01*CFITSIO_MINOR)
                    + (float)(.0001*CFITSIO_MICRO);
 
-/*    *version = 4.6.3      Sep 2025 
+/*    *version = 4.7.0      Aug 2026 
 
    Previous releases:
+      *version = 4.6.4      Apr 2026
+      *version = 4.6.3      Sep 2025
       *version = 4.6.2      Mar 2025 (autotools change only)
       *version = 4.6.1      Mar 2025 (autotools/cmake config changes only)
       *version = 4.6.0      Mar 2025
@@ -9212,7 +9214,7 @@ int ffc2j(const char *cval,     /* I - string representation of the value */
   datatype conversion if necessary.
 */
 {
-    char dtype, sval[81], msg[81];
+    char dtype, sval[81], msg[FLEN_ERRMSG];
     int lval;
     double dval;
     
@@ -9256,7 +9258,7 @@ int ffc2j(const char *cval,     /* I - string representation of the value */
     {
             *ival = 0;
             strcpy(msg,"Error in ffc2j evaluating string as a long integer: ");
-            strncat(msg,cval,30);
+            strncat(msg,cval,FLEN_ERRMSG-strlen(msg)-1);
             ffpmsg(msg);
             return(*status);
     }
@@ -9273,7 +9275,7 @@ int ffc2uj(const char *cval,     /* I - string representation of the value */
   datatype conversion if necessary.
 */
 {
-    char dtype, sval[81], msg[81];
+    char dtype, sval[81], msg[FLEN_ERRMSG];
     int lval;
     double dval;
     
@@ -9317,7 +9319,7 @@ int ffc2uj(const char *cval,     /* I - string representation of the value */
     {
             *ival = 0;
             strcpy(msg,"Error in ffc2j evaluating string as a long integer: ");
-            strncat(msg,cval,30);
+            strncat(msg,cval,FLEN_ERRMSG-strlen(msg)-1);
             ffpmsg(msg);
             return(*status);
     }
@@ -9508,7 +9510,7 @@ int ffc2jj(const char *cval,  /* I - string representation of the value */
           LONGLONG *ival,     /* O - numerical value of the input string */
           int *status)        /* IO - error status */
 /*
-  convert null-terminated formatted string to an long long integer value
+  convert null-terminated formatted string to a long long integer value
 */
 {
     char *loc, msg[81];
@@ -9521,13 +9523,11 @@ int ffc2jj(const char *cval,  /* I - string representation of the value */
 
 #if defined(_MSC_VER)
 
-    /* Microsoft Visual C++ 6.0 does not have the strtoll function */
-    *ival =  _atoi64(cval);
-    loc = (char *) cval;
-    while (*loc == ' ') loc++;     /* skip spaces */
-    if    (*loc == '-') loc++;     /* skip minus sign */
-    if    (*loc == '+') loc++;     /* skip plus sign */
-    while (isdigit(*loc)) loc++;   /* skip digits */
+    /* Microsoft Visual C++ does not have the strtoll function, but it
+       provides _strtoi64, the signed 64-bit string conversion.  Unlike
+       _atoi64 it reports the end of the parsed token (for the trailing-junk
+       check) and sets errno to ERANGE on overflow. */
+    *ival = _strtoi64(cval, &loc, 10);
 
 #elif (USE_LL_SUFFIX == 1)
     *ival = strtoll(cval, &loc, 10);  /* read the string as an integer */
@@ -9569,17 +9569,11 @@ int ffc2ujj(const char *cval,  /* I - string representation of the value */
 
 #if defined(_MSC_VER)
 
-    /* Microsoft Visual C++ 6.0 does not have the strtoll function */
-/*  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
-/* !!!!!  This needs to be modified to use the unsigned long long version of _atoi64 */
-/*  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
-
-    *ival =  _atoi64(cval);
-    loc = (char *) cval;
-    while (*loc == ' ') loc++;     /* skip spaces */
-    if    (*loc == '-') loc++;     /* skip minus sign */
-    if    (*loc == '+') loc++;     /* skip plus sign */
-    while (isdigit(*loc)) loc++;   /* skip digits */
+    /* Microsoft Visual C++ does not have the strtoull function, but it
+       provides _strtoui64, the unsigned 64-bit string conversion.  This
+       correctly handles values above LLONG_MAX (unlike _atoi64) and sets
+       errno to ERANGE on overflow. */
+    *ival = _strtoui64(cval, &loc, 10);
 
 #elif (USE_LL_SUFFIX == 1)
     *ival = strtoull(cval, &loc, 10);  /* read the string as an integer */
@@ -9594,7 +9588,7 @@ int ffc2ujj(const char *cval,  /* I - string representation of the value */
     if (errno == ERANGE)
     {
         strcpy(msg,"Range Error in ffc2ujj converting string to unsigned longlong int: ");
-        strncat(msg,cval,25);
+        strncat(msg,cval,23);
         ffpmsg(msg);
 
         *status = NUM_OVERFLOW;

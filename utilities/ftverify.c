@@ -152,7 +152,7 @@ int ftverify (void)
     char errreport[PIL_LINESIZE];
     
     static char taskname[80] = "ftverify";
-    static char version[8] = "4.22";
+    static char version[8] = "4.23";
 
     /* Register taskname and version. */
 
@@ -270,7 +270,7 @@ int ftverify_work(
     char task[80];
     char tversion[80];
     float fversion;
-    int i, nerrs, nwarns;
+    int i, nerrs, nwarns, fversion_int, fversion_major, fversion_minor, fversion_patch;
     char msg[MAXMSG];
 
     /* determine 'Severe error", "Error", or "Warning" report level */
@@ -337,15 +337,20 @@ int ftverify_work(
     wrtout(outfptr," ");
     fits_get_version(&fversion);
     get_toolname(task); 
-    get_toolversion(tversion); 
-    sprintf(comm,"%s %s (CFITSIO V%.3f)",task,tversion,fversion);
+    get_toolversion(tversion);
+    fversion_int   = (int)((fversion * 10000.0) + 0.5);
+    fversion_major = fversion_int / 10000;
+    fversion_minor = (fversion_int % 10000) / 100;
+    fversion_patch = fversion_int % 100;
+    sprintf(comm, "%s %s (CFITSIO V%d.%d.%d)", task, tversion, fversion_major,
+            fversion_minor, fversion_patch);
     wrtsep(outfptr,' ',comm,60);
     for(i = 0; comm[i]!='\0'; i++) comm[i] = '-';
     wrtsep(outfptr,' ',comm,60);
     wrtout(outfptr," ");
     switch (err_report) {
     case 2:
-    sprintf(comm, "Caution: Only checking for the most severe FITS format errors.");
+        sprintf(comm, "Caution: Only checking for the most severe FITS format errors.");
         wrtout(outfptr,comm);
         break;
     case 1:

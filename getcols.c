@@ -10,6 +10,7 @@
 /* stddef.h is apparently needed to define size_t */
 #include <stddef.h>
 #include <ctype.h>
+#include <limits.h>
 #include "fitsio2.h"
 /*--------------------------------------------------------------------------*/
 int ffgcvs( fitsfile *fptr,   /* I - FITS file pointer                       */
@@ -79,7 +80,7 @@ int ffgcls( fitsfile *fptr,   /* I - FITS file pointer                       */
     long ii, jj;
     tcolumn *colptr;
     char message[FLEN_ERRMSG], *carray, keyname[FLEN_KEYWORD];
-    char cform[20], dispfmt[20], tmpstr[400], *flgarray, tmpnull[80];
+    char cform[FLEN_VALUE], dispfmt[FLEN_VALUE], tmpstr[400], *flgarray, tmpnull[80];
     unsigned char byteval;
     float *earray;
     double *darray, tscale = 1.0;
@@ -622,8 +623,9 @@ int ffgcdw( fitsfile *fptr,   /* I - FITS file pointer                       */
 {
     tcolumn *colptr;
     char *cptr;
-    char message[FLEN_ERRMSG], keyname[FLEN_KEYWORD], dispfmt[20];
+    char message[FLEN_ERRMSG], keyname[FLEN_KEYWORD], dispfmt[FLEN_VALUE];
     int tcode, hdutype, tstatus, scaled;
+    long testwidth;
     double tscale;
 
     if (*status > 0)  /* inherit input status value if > 0 */
@@ -669,9 +671,13 @@ int ffgcdw( fitsfile *fptr,   /* I - FITS file pointer                       */
             while(!isdigit((int) *cptr) && *cptr != '\0') /* find 1st digit */
               cptr++;
 
-            *width = atoi(cptr);
-            if (tcode >= TCOMPLEX)
-              *width = (2 * (*width)) + 3;
+            testwidth = strtol(cptr, 0, 10);
+            if (testwidth >= INT_MIN && testwidth <= INT_MAX)
+            {
+               *width = (int)testwidth;
+               if (tcode >= TCOMPLEX)
+                 *width = (2 * (*width)) + 3;
+            }
           }
     }
 

@@ -802,7 +802,7 @@ int ffhist2e(fitsfile **fptr,  /* IO - pointer to table with X and Y cols;    */
       */
       int naxis1;
       long int nelem, naxes[MAXDIMS];
-      ParseData lParse;
+      ParseData lParse = {0};
 
       ffiprs( *fptr, 0, wtexpr, MAXDIMS, &wtdatatype, &nelem, &naxis1,
 	      naxes, &lParse, status );
@@ -1940,7 +1940,7 @@ int fits_calc_binningde(
 
 	long nelem, naxes[MAXDIMS];
 	int naxis;
-	ParseData lParse;
+	ParseData lParse = {0};
 
 	/* Initialize the parser so that we can determine the datatype
 	   of the returned type as well as the vector dimensions */
@@ -1950,6 +1950,7 @@ int fits_calc_binningde(
 		   "Parser error of binning expression: %s", 
 		   colexpr[ii]);
 	  ffpmsg(errmsg);
+          ffcprs(&lParse);
 	  return *status;
 	}
 	if (nelem < 0) nelem = 1; /* If it's a constant expression */
@@ -2976,7 +2977,7 @@ int fits_get_expr_minmax(fitsfile *fptr, char *expr, double *datamin,
 */
 {
    parseInfo Info;
-   ParseData lParse;
+   ParseData lParse = {0};
    struct histo_minmax_workfn_struct minmaxWorkFn;
    int naxis;
    long nelem, naxes[MAXDIMS], nrows;
@@ -3096,7 +3097,7 @@ int ffcalchist(long totalrows, long offset, long firstrow, long nrows,
     histType *histData = (histType*)userPointer;
     double *colptr[MAXDIMS] = {0};
     int status = 0;
-    long irow;
+    long irow, adjustedRepeat=0;
 
     if (firstrow == 1) {
       histData->rowselector_cur = histData->rowselector;
@@ -3137,10 +3138,19 @@ int ffcalchist(long totalrows, long offset, long firstrow, long nrows,
       }
     }
 
-    /*  Main loop over rows */
-    /* irow = row counter (1 .. nrows) */
-    /* elem = counter of element (1 .. histData->repeat) for each row */
-    /* ii = counts up from 1 (see note below) used to index colptr[]'s */
+    /* Main loop over rows 
+        For tables: 
+         irow = row counter (1 .. nrows) 
+         elem = counter of element (1 .. histData->repeat) for each row 
+         ii = counts up from 1 (see note below) used to index colptr[]'s 
+        For images:
+         irow = pixel counter (1 .. totalnpix)
+         elem = 1  (not applicable)     
+    */
+    if (histData->tblptr && histData->tblptr->Fptr->hdutype != IMAGE_HDU)
+       adjustedRepeat = histData->repeat;
+    else
+       adjustedRepeat = 1;
 
     /* Note that ii starts at 1 because position [0] in the 
        column data arrays is for the "null" value! */
@@ -3155,7 +3165,7 @@ int ffcalchist(long totalrows, long offset, long firstrow, long nrows,
 	  } else {
                rowselect++;   /* this row is excluded from the histogram */
 
-	       ii += histData->repeat; /* skip this portion of data */
+	       ii += adjustedRepeat; /* skip this portion of data */
                continue;
            }
         }
@@ -3163,7 +3173,7 @@ int ffcalchist(long totalrows, long offset, long firstrow, long nrows,
 
 	/* Loop over elements in each row, increment ii after each element */
 
-        for (elem = 1; elem <= histData->repeat; elem++, ii++) {
+        for (elem = 1; elem <= adjustedRepeat; elem++, ii++) {
 	  if (colptr[0][ii] == DOUBLENULLVALUE)  /* test for null value */
             continue;
 	  if (colptr[4] && colptr[4][ii] == DOUBLENULLVALUE) /* and null weight */

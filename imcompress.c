@@ -4,6 +4,7 @@
 # include <math.h>
 # include <ctype.h>
 # include <time.h>
+# include <limits.h>
 # include "fitsio2.h"
 
 #define NULL_VALUE -2147483647 /* value used to represent undefined pixels */
@@ -5259,7 +5260,7 @@ int imcomp_get_compressed_image_par(fitsfile *infptr, int *status)
     char keyword[FLEN_KEYWORD];
     char value[FLEN_VALUE];
     int ii, tstatus, tstatus2, doffset, oldFormat=0, colNum=0;
-    long expect_nrows, maxtilelen;
+    long expect_nrows, maxtilelen, rowFactor;
 
     if (*status > 0)
         return(*status);
@@ -5409,8 +5410,25 @@ int imcomp_get_compressed_image_par(fitsfile *infptr, int *status)
            ffpmsg("invalid ZTILE value = 0 in compressed image");
            return (*status = DATA_DECOMPRESSION_ERR);
         }
-        expect_nrows *= (((infptr->Fptr)->znaxis[ii] - 1) / 
-                  (infptr->Fptr)->tilesize[ii]+ 1);
+        
+        if ((infptr->Fptr)->znaxis[ii] == LONG_MIN) /* cannot subtract 1 from this */
+        {
+           ffpmsg("numerical overflow in imcomp_get_compressed_image_par");
+           return(*status = DATA_DECOMPRESSION_ERR);  
+        }
+        rowFactor = ((infptr->Fptr)->znaxis[ii] - 1) / 
+                  (infptr->Fptr)->tilesize[ii]+ 1;
+        if (expect_nrows > LONG_MAX/rowFactor)
+        {
+           ffpmsg("numerical overflow in imcomp_get_compressed_image_par");
+           return(*status = DATA_DECOMPRESSION_ERR);          
+        }
+        expect_nrows *= rowFactor;
+        if (maxtilelen > LONG_MAX/((infptr->Fptr)->tilesize[ii]))
+        {
+           ffpmsg("numerical overflow in imcomp_get_compressed_image_par");
+           return(*status = DATA_DECOMPRESSION_ERR);  
+        }
         maxtilelen *= (infptr->Fptr)->tilesize[ii];
     }
 
@@ -6346,11 +6364,11 @@ int imcomp_decompress_tile (fitsfile *infptr,
         smooth = (infptr->Fptr)->hcomp_smooth;
 
         if ( ((infptr->Fptr)->zbitpix == BYTE_IMG || (infptr->Fptr)->zbitpix == SHORT_IMG)) {
-            *status = fits_hdecompress(cbuf, smooth, idata, &nx, &ny,
+            *status = fits_hdecompress(cbuf, smooth, idata, tilelen, &nx, &ny,
 	        &scale, status);
         } else {  /* zbitpix = LONG_IMG (32) */
             /* idata must have been allocated twice as large for this to work */
-            *status = fits_hdecompress64(cbuf, smooth, (LONGLONG *) idata, &nx, &ny,
+            *status = fits_hdecompress64(cbuf, smooth, (LONGLONG *) idata, tilelen, &nx, &ny,
 	        &scale, status);
         }       
 
@@ -6358,8 +6376,13 @@ int imcomp_decompress_tile (fitsfile *infptr,
 
     /* ************************************************************* */
     } else if ((infptr->Fptr)->compress_type == PLIO_1) {
-
-        pl_l2pi ((short *) cbuf, 1, idata, tilelen);  /* uncompress the data */
+        /* uncompress the data */
+        if (pl_l2pi ((short *) cbuf, (size_t)nelemll, 1, idata, tilelen) < 0) {
+           ffpmsg("error: out-of-bounds memory access attempt (imcomp_decompress_tile)");
+           free(idata);
+           free(cbuf);
+           return (*status = DATA_DECOMPRESSION_ERR);
+        } 
         tiledatatype = TINT;
 
     /* ************************************************************* */

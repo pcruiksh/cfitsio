@@ -25,7 +25,7 @@ jobs:
         steps:
                 
         - name: Set up Git repository
-          uses: actions/checkout@v4
+          uses: actions/checkout@v7
 
         # We need texlive and latex2html for the tex files
         # pandoc for the markdown files
@@ -94,7 +94,7 @@ jobs:
         
         # save the artifacts to the Workflow output
         - name: Upload Artifacts
-          uses: actions/upload-artifact@v4
+          uses: actions/upload-artifact@v7
           with:
             name: documentation-output
             path: |

@@ -25,8 +25,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 # Define project version
 SET(${PROJECT_NAME}_SONAME 10)
 SET(${PROJECT_NAME}_MAJOR 4)
-SET(${PROJECT_NAME}_MINOR 6)
-SET(${PROJECT_NAME}_MICRO 3)
+SET(${PROJECT_NAME}_MINOR 7)
+SET(${PROJECT_NAME}_MICRO 0)
 SET(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_MAJOR}.${${PROJECT_NAME}_MINOR}.${${PROJECT_NAME}_MICRO})
 SET(LIB_NAME cfitsio)
 
@@ -404,7 +404,7 @@ IF (TESTS)
     ADD_TEST(TestProg TestProg)
     # Copy testprog.tpt to build directory to allow quick test
     # of ./TestProg (or .\Release\TestProg.exe in MSVC):
-    FILE(COPY ${CMAKE_SOURCE_DIR}/testprog.tpt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/testprog.tpt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
     ADD_EXECUTABLE(cookbook utilities/cookbook.c)
     TARGET_LINK_LIBRARIES(cookbook ${LIB_NAME})
